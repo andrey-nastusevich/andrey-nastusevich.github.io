@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Andrey Nastusevich · Video editor</title>
+<meta name="description" content="Video editor in Novi Sad. Reels, motion graphics and short brand films: editing, subtitles, sound and color.">
+<meta property="og:title" content="Andrey Nastusevich · Video editor">
+<meta property="og:description" content="Reels, motion graphics and short brand films. Novi Sad · remote.">
+<meta property="og:image" content="media/three-ways.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800&family=Onest:wght@400;500;700&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* Studio v3 в ночном варианте: как вставки в роликах. Один акцент — синий. */
+:root{
+  --bg:#0A0B10; --bg2:#10121A; --panel:#141722; --line:#232634;
+  --ink:#F7F7F5; --mute:#9497A6; --blue:#2B5BFF; --blue2:#1B3BB0;
+  --f-disp:"Unbounded",system-ui,sans-serif; --f-body:"Onest",system-ui,sans-serif; --f-mono:"JetBrains Mono",ui-monospace,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+img,video{max-width:100%;display:block}
+.wrap{max-width:1160px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left));padding-right:max(20px,env(safe-area-inset-right))}
+.mono{font-family:var(--f-mono);font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+.mono b{color:var(--blue);font-weight:700}
+
+/* шапка */
+header{position:sticky;top:0;z-index:20;background:rgba(10,11,16,.82);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top)}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:16px;height:64px}
+.logo{font-family:var(--f-disp);font-weight:800;font-size:15px;letter-spacing:.01em;text-decoration:none;display:flex;align-items:center;gap:10px}
+.logo i{width:9px;height:9px;border-radius:50%;background:var(--blue);box-shadow:0 0 12px var(--blue);display:inline-block}
+nav{display:flex;gap:26px;align-items:center}
+nav a{text-decoration:none;color:var(--mute);font-size:15px}
+nav a:hover{color:var(--ink)}
+.lang{display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.lang button{background:none;border:0;color:var(--mute);font-family:var(--f-mono);font-size:12px;padding:7px 10px;cursor:pointer}
+.lang button[aria-pressed="true"]{background:var(--blue);color:#fff}
+@media (max-width:720px){nav .nl{display:none}}
+
+/* герой */
+.hero{position:relative;overflow:hidden;padding:72px 0 88px;border-bottom:1px solid var(--line)}
+.hero::before{content:"";position:absolute;inset:0;background:
+  radial-gradient(45% 40% at 85% 85%,rgba(43,91,255,.28),transparent 70%),
+  radial-gradient(30% 30% at 8% 0%,rgba(43,91,255,.12),transparent 70%);pointer-events:none}
+.hero::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(rgba(247,247,245,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(247,247,245,.05) 1px,transparent 1px);
+  background-size:72px 72px;-webkit-mask-image:radial-gradient(60% 60% at 50% 50%,#000 30%,transparent 100%);mask-image:radial-gradient(60% 60% at 50% 50%,#000 30%,transparent 100%)}
+.hero .wrap{position:relative;z-index:1;display:grid;grid-template-columns:1.25fr .75fr;gap:56px;align-items:center}
+h1{font-family:var(--f-disp);font-weight:800;font-size:clamp(36px,5.6vw,68px);line-height:1.02;letter-spacing:-.015em;margin:18px 0 22px;text-wrap:balance}
+h1 em{font-style:normal;color:var(--blue);text-shadow:0 0 22px rgba(43,91,255,.55)}
+.lead{color:#C9CAD3;max-width:46ch;margin:0 0 32px;font-size:18px}
+.ctas{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:10px;text-decoration:none;font-weight:700;font-size:16px;padding:14px 22px;border-radius:12px;border:1px solid var(--line)}
+.btn.primary{background:var(--blue);border-color:var(--blue);color:#fff;box-shadow:0 8px 30px rgba(43,91,255,.35)}
+.btn:hover{filter:brightness(1.1)}
+.btn:focus-visible,.lang button:focus-visible,.copy:focus-visible,.snd:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.phone{position:relative;justify-self:end;width:min(340px,100%)}
+.phone .frame{position:relative;aspect-ratio:9/16;border-radius:22px;overflow:hidden;border:1px solid var(--line);box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 0 6px #0E1018}
+.phone video{width:100%;height:100%;object-fit:cover}
+.tc{position:absolute;left:12px;top:12px;font-family:var(--f-mono);font-size:11px;color:#fff;background:rgba(0,0,0,.45);padding:4px 7px;border-radius:6px;letter-spacing:.06em}
+.snd{position:absolute;right:12px;bottom:12px;font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;color:#fff;background:rgba(0,0,0,.55);border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:7px 10px;cursor:pointer}
+.cap{margin-top:14px;display:flex;justify-content:space-between;gap:12px}
+@media (max-width:860px){.hero .wrap{grid-template-columns:1fr;gap:40px}.phone{justify-self:start}}
+
+/* секции */
+section{padding:88px 0;border-bottom:1px solid var(--line)}
+.sh{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:36px}
+h2{font-family:var(--f-disp);font-weight:800;font-size:clamp(28px,3.6vw,42px);line-height:1.08;margin:8px 0 0;letter-spacing:-.01em}
+
+/* работы */
+.works{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:28px}
+.work{display:grid;grid-template-columns:200px 1fr;gap:22px;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:18px;min-width:0}
+.work .v{aspect-ratio:9/16;border-radius:12px;overflow:hidden;background:#000;position:relative}
+.work .v video{width:100%;height:100%;object-fit:cover}
+.work h3{font-family:var(--f-disp);font-weight:700;font-size:19px;line-height:1.2;margin:8px 0 10px}
+.work p{margin:0 0 14px;color:#C9CAD3;font-size:15.5px}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tags span{font-family:var(--f-mono);font-size:11px;letter-spacing:.05em;color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:4px 8px}
+.tags span.b{border-color:var(--blue);color:#fff;background:rgba(43,91,255,.18)}
+@media (max-width:560px){.work{grid-template-columns:1fr}.work .v{max-width:260px}}
+.more{margin-top:28px;color:var(--mute);font-size:15px}
+
+/* услуги */
+.svc{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px}
+.s{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:26px;display:grid;gap:12px;align-content:start}
+.s h3{font-family:var(--f-disp);font-weight:700;font-size:19px;margin:0}
+.s p{margin:0;color:#C9CAD3;font-size:15.5px}
+.price{font-family:var(--f-mono);font-weight:700;font-size:26px;color:var(--ink);margin-top:6px}
+.price small{font-size:13px;color:var(--mute);font-weight:500;letter-spacing:.04em}
+.s ul{margin:4px 0 0;padding-left:18px;color:#C9CAD3;font-size:14.5px}
+.offer{margin-top:24px;display:flex;gap:14px;align-items:center;flex-wrap:wrap;padding:18px 22px;border:1px solid var(--blue);border-radius:14px;background:rgba(43,91,255,.1)}
+.offer b{font-family:var(--f-mono);color:#fff;background:var(--blue);padding:4px 9px;border-radius:6px;font-size:13px}
+
+/* процесс */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px;counter-reset:st}
+.step{border-top:2px solid var(--line);padding-top:16px}
+.step .mono{display:block;margin-bottom:8px}
+.step h3{font-family:var(--f-disp);font-weight:700;font-size:17px;margin:0 0 6px}
+.step p{margin:0;color:#C9CAD3;font-size:15px}
+
+/* обо мне */
+.about{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+.about p{color:#C9CAD3;margin:0 0 16px;max-width:56ch}
+.tools{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.tools span{font-family:var(--f-mono);font-size:12px;border:1px solid var(--line);border-radius:6px;padding:6px 10px}
+@media (max-width:820px){.about{grid-template-columns:1fr}}
+
+/* контакт */
+.contact{text-align:left}
+.contact h2{font-size:clamp(34px,5vw,60px)}
+.cl{display:grid;gap:14px;margin-top:30px;max-width:620px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px;flex-wrap:wrap}
+.row .k{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;color:var(--mute);text-transform:uppercase}
+.row .val{font-size:17px;font-weight:700;word-break:break-all;user-select:all}
+.row a.val{text-decoration:none}
+.copy{background:none;border:1px solid var(--line);color:var(--ink);border-radius:8px;padding:7px 12px;font-family:var(--f-mono);font-size:12px;cursor:pointer}
+footer{padding:32px 0 calc(32px + env(safe-area-inset-bottom));color:var(--mute)}
+footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap bar">
+    <a class="logo" href="#top"><i></i>Andrey Nastusevich</a>
+    <nav>
+      <a class="nl" href="#work" data-en="Work" data-ru="Работы">Work</a>
+      <a class="nl" href="#services" data-en="Services" data-ru="Услуги">Services</a>
+      <a class="nl" href="#contact" data-en="Contact" data-ru="Контакт">Contact</a>
+      <div class="lang" role="group" aria-label="Language">
+        <button type="button" id="l-en" aria-pressed="true">EN</button>
+        <button type="button" id="l-ru" aria-pressed="false">RU</button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+<div class="hero">
+  <div class="wrap">
+    <div>
+      <div class="mono"><b>●</b> <span data-en="Video editor · Novi Sad · remote" data-ru="Монтажёр · Нови-Сад · удалённо">Video editor · Novi Sad · remote</span></div>
+      <h1 data-en="I turn everyday life into <em>cinema</em>." data-ru="Делаю из обычной жизни <em>кино</em>.">I turn everyday life into <em>cinema</em>.</h1>
+      <p class="lead" data-en="Reels, motion graphics and short brand films. From raw footage to a ready post: editing, subtitles, sound and color." data-ru="Рилсы, моушн-графика и короткие бренд-фильмы. От сырых исходников до готового поста: монтаж, субтитры, звук и цвет.">Reels, motion graphics and short brand films. From raw footage to a ready post: editing, subtitles, sound and color.</p>
+      <div class="ctas">
+        <a class="btn primary" href="#contact" data-en="Start a project →" data-ru="Обсудить проект →">Start a project →</a>
+        <a class="btn" href="#work" data-en="See the work" data-ru="Смотреть работы">See the work</a>
+      </div>
+    </div>
+    <div class="phone">
+      <div class="frame">
+        <video id="hv" src="media/three-ways.mp4" poster="media/three-ways.jpg" autoplay muted loop playsinline preload="metadata"></video>
+        <span class="tc" id="tc">00:00:00:00</span>
+        <button class="snd" type="button" id="snd" data-en="SOUND ON" data-ru="ЗВУК">SOUND ON</button>
+      </div>
+      <div class="cap"><span class="mono" data-en="Latest · 3 ways" data-ru="Последнее · 3 способа">Latest · 3 ways</span><span class="mono">9:16 · 1:16</span></div>
+    </div>
+  </div>
+</div>
+
+<section id="work">
+  <div class="wrap">
+    <div class="sh"><div><div class="mono">SEQ 01</div><h2 data-en="Work" data-ru="Работы">Work</h2></div></div>
+    <div class="works">
+      <article class="work">
+        <div class="v"><video src="media/three-ways.mp4" poster="media/three-ways.jpg" muted loop playsinline controls preload="none"></video></div>
+        <div>
+          <div class="mono" data-en="Talking head + motion · own blog" data-ru="Говорящая голова + моушн · мой блог">Talking head + motion · own blog</div>
+          <h3 data-en="3 ways to get rubles to Serbia" data-ru="3 способа получить рубли в Сербии">3 ways to get rubles to Serbia</h3>
+          <p data-en="A 76-second explainer that keeps people watching: a map flight in the hook, an animated card and counter, a cascade chart, a step chain and word-by-word subtitles. Script, filming, edit and graphics by me." data-ru="Объясняющий ролик на 76 секунд, который досматривают: перелёт по карте в хуке, анимированная карточка со счётчиком, каскадный график, цепочка шагов и субтитры по слову. Сценарий, съёмка, монтаж и графика — мои.">A 76-second explainer that keeps people watching: a map flight in the hook, an animated card and counter, a cascade chart, a step chain and word-by-word subtitles. Script, filming, edit and graphics by me.</p>
+          <div class="tags"><span class="b">After Effects</span><span>Premiere Pro</span><span data-en="Motion graphics" data-ru="Моушн-графика">Motion graphics</span><span data-en="Subtitles" data-ru="Субтитры">Subtitles</span><span data-en="Sound" data-ru="Звук">Sound</span></div>
+        </div>
+      </article>
+      <article class="work">
+        <div class="v"><video src="media/coffee.mp4" poster="media/coffee.jpg" muted loop playsinline controls preload="none"></video></div>
+        <div>
+          <div class="mono" data-en="Product spot · spec" data-ru="Реклама продукта · spec">Product spot · spec</div>
+          <h3 data-en="Coffee in a cezve" data-ru="Кофе в турке">Coffee in a cezve</h3>
+          <p data-en="A short product spot shot at home: rising foam, steam against the light, macro details, speed ramps and dense sound design. Made for the portfolio, not for a client." data-ru="Короткая реклама продукта, снятая дома: поднимающаяся пена, пар против света, макро, speed ramp и плотный саунд-дизайн. Сделано для портфолио, не на заказ.">A short product spot shot at home: rising foam, steam against the light, macro details, speed ramps and dense sound design. Made for the portfolio, not for a client.</p>
+          <div class="tags"><span class="b" data-en="Filming" data-ru="Съёмка">Filming</span><span>Speed ramps</span><span data-en="Color" data-ru="Цвет">Color</span><span data-en="Sound design" data-ru="Саунд-дизайн">Sound design</span></div>
+        </div>
+      </article>
+    </div>
+    <p class="more" data-en="More work is on my Instagram — every reel there is edited by me." data-ru="Больше работ — в моём Instagram: каждый рилс там смонтирован мной.">More work is on my Instagram — every reel there is edited by me.</p>
+  </div>
+</section>
+
+<section id="services">
+  <div class="wrap">
+    <div class="sh"><div><div class="mono">SEQ 02</div><h2 data-en="Services and prices" data-ru="Услуги и цены">Services and prices</h2></div></div>
+    <div class="svc">
+      <div class="s">
+        <div class="mono">9:16 · 15–60 s</div>
+        <h3 data-en="Reel editing" data-ru="Монтаж рилса">Reel editing</h3>
+        <p data-en="You send raw footage, I return a ready reel." data-ru="Ты присылаешь исходники — я возвращаю готовый рилс.">You send raw footage, I return a ready reel.</p>
+        <ul>
+          <li data-en="Cuts and pacing, a hook in the first second" data-ru="Нарезка и темп, хук в первую секунду">Cuts and pacing, a hook in the first second</li>
+          <li data-en="Subtitles in your style" data-ru="Субтитры в твоём стиле">Subtitles in your style</li>
+          <li data-en="Music, sound, loudness" data-ru="Музыка, звук, громкость">Music, sound, loudness</li>
+        </ul>
+        <div class="price"><small data-en="from" data-ru="от">from</small> 25 €</div>
+      </div>
+      <div class="s">
+        <div class="mono">Novi Sad</div>
+        <h3 data-en="Filming + editing" data-ru="Съёмка + монтаж">Filming + editing</h3>
+        <p data-en="For cafés, salons, studios and local brands in Novi Sad." data-ru="Для кафе, салонов, студий и местных брендов Нови-Сада.">For cafés, salons, studios and local brands in Novi Sad.</p>
+        <ul>
+          <li data-en="On-site filming" data-ru="Съёмка на месте">On-site filming</li>
+          <li data-en="Editing, color, subtitles, music" data-ru="Монтаж, цвет, субтитры, музыка">Editing, color, subtitles, music</li>
+          <li data-en="Ready for Instagram and TikTok" data-ru="Готово для Instagram и TikTok">Ready for Instagram and TikTok</li>
+        </ul>
+        <div class="price"><small data-en="from" data-ru="от">from</small> 60 €</div>
+      </div>
+      <div class="s">
+        <div class="mono">After Effects</div>
+        <h3 data-en="Motion graphics" data-ru="Моушн-графика">Motion graphics</h3>
+        <p data-en="Infographic inserts, animated titles and counters that make a talking head worth watching." data-ru="Инфографика, анимированные титры и счётчики — чтобы говорящую голову досматривали.">Infographic inserts, animated titles and counters that make a talking head worth watching.</p>
+        <ul>
+          <li data-en="Inserts timed to your voice" data-ru="Вставки точно под речь">Inserts timed to your voice</li>
+          <li data-en="One consistent style" data-ru="Единый стиль">One consistent style</li>
+        </ul>
+        <div class="price"><small data-en="price on request" data-ru="цена по запросу">price on request</small></div>
+      </div>
+    </div>
+    <div class="offer"><b>−50%</b><span data-en="Your first video comes at half price — try it without risk. Monthly packages of 4+ reels are cheaper." data-ru="Первый ролик — за полцены, чтобы попробовать без риска. Пакет от 4 рилсов в месяц — дешевле.">Your first video comes at half price — try it without risk. Monthly packages of 4+ reels are cheaper.</span></div>
+  </div>
+</section>
+
+<section id="process">
+  <div class="wrap">
+    <div class="sh"><div><div class="mono">SEQ 03</div><h2 data-en="How it works" data-ru="Как работаем">How it works</h2></div></div>
+    <div class="steps">
+      <div class="step"><span class="mono">01</span><h3 data-en="Brief" data-ru="Бриф">Brief</h3><p data-en="You write what you need and send examples you like." data-ru="Пишешь, что нужно, и кидаешь примеры, которые нравятся.">You write what you need and send examples you like.</p></div>
+      <div class="step"><span class="mono">02</span><h3 data-en="Footage" data-ru="Исходники">Footage</h3><p data-en="You send files, or I film in Novi Sad." data-ru="Присылаешь файлы — или я снимаю в Нови-Саде.">You send files, or I film in Novi Sad.</p></div>
+      <div class="step"><span class="mono">03</span><h3 data-en="Edit" data-ru="Монтаж">Edit</h3><p data-en="I send a first cut, we fix what you want changed." data-ru="Присылаю первую версию, правим то, что хочешь поменять.">I send a first cut, we fix what you want changed.</p></div>
+      <div class="step"><span class="mono">04</span><h3 data-en="Delivery" data-ru="Готово">Delivery</h3><p data-en="A file ready to post, loudness and format checked." data-ru="Файл, готовый к публикации: громкость и формат проверены.">A file ready to post, loudness and format checked.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap about">
+    <div><div class="mono">SEQ 04</div><h2 data-en="Hi, I'm Andrey" data-ru="Привет, я Андрей">Hi, I'm Andrey</h2></div>
+    <div>
+      <p data-en="I'm a video editor from Saint Petersburg, now living in Novi Sad. I care about the first second as much as the last one: a hook that stops the scroll, pacing that keeps people watching, and clean sound." data-ru="Я монтажёр из Санкт-Петербурга, сейчас живу в Нови-Саде. Для меня первая секунда так же важна, как последняя: хук, на котором останавливают ленту, темп, который держит до конца, и чистый звук.">I'm a video editor from Saint Petersburg, now living in Novi Sad. I care about the first second as much as the last one: a hook that stops the scroll, pacing that keeps people watching, and clean sound.</p>
+      <p data-en="I also run my own blog, @nastupaca, where I turn everyday life into small films and show how they're made." data-ru="Ещё я веду свой блог @nastupaca: делаю из обычной жизни маленькое кино и показываю, как оно сделано.">I also run my own blog, @nastupaca, where I turn everyday life into small films and show how they're made.</p>
+      <div class="tools"><span>Premiere Pro</span><span>After Effects</span><span>DaVinci Resolve</span><span>CapCut</span><span>Lightroom</span><span>Photoshop</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="contact">
+  <div class="wrap">
+    <div class="mono">SEQ 05</div>
+    <h2 data-en="Let's cut something." data-ru="Давай что-нибудь смонтируем.">Let's cut something.</h2>
+    <p class="lead" data-en="Write what you need — I'll reply with a price and timing." data-ru="Напиши, что нужно, — отвечу с ценой и сроками.">Write what you need — I'll reply with a price and timing.</p>
+    <div class="cl">
+      <div class="row"><span class="k">Email</span><span class="val" id="mail">nastusevich.official@gmail.com</span><button class="copy" type="button" id="cp" data-en="Copy" data-ru="Копировать">Copy</button></div>
+      <div class="row"><span class="k">Instagram</span><a class="val" href="https://instagram.com/nastupaca" target="_blank" rel="noopener">@nastupaca</a><span class="mono" data-en="DM is fine" data-ru="можно в директ">DM is fine</span></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer><div class="wrap"><span>© 2026 Andrey Nastusevich</span><span class="mono" data-en="End of sequence" data-ru="Конец секвенции">End of sequence</span></div></footer>
+
+<script>
+(function(){
+  var KEY='lang', cur='en';
+  try{ cur=localStorage.getItem(KEY) || ((navigator.language||'').slice(0,2)==='ru'?'ru':'en'); }catch(e){ cur=((navigator.language||'').slice(0,2)==='ru'?'ru':'en'); }
+  function setLang(l){
+    cur=l; document.documentElement.lang=l;
+    document.querySelectorAll('[data-'+l+']').forEach(function(el){ el.innerHTML=el.getAttribute('data-'+l); });
+    document.getElementById('l-en').setAttribute('aria-pressed', l==='en');
+    document.getElementById('l-ru').setAttribute('aria-pressed', l==='ru');
+    try{ localStorage.setItem(KEY,l); }catch(e){}
+    sndLabel();
+  }
+  document.getElementById('l-en').onclick=function(){setLang('en')};
+  document.getElementById('l-ru').onclick=function(){setLang('ru')};
+
+  var v=document.getElementById('hv'), tc=document.getElementById('tc'), snd=document.getElementById('snd');
+  function pad(n){return String(n).padStart(2,'0')}
+  function tick(){ var t=v.currentTime||0; tc.textContent='00:'+pad(Math.floor(t/60))+':'+pad(Math.floor(t%60))+':'+pad(Math.floor((t%1)*25)); requestAnimationFrame(tick); }
+  requestAnimationFrame(tick);
+  function sndLabel(){ snd.textContent = v.muted ? (cur==='ru'?'ВКЛ. ЗВУК':'SOUND ON') : (cur==='ru'?'ВЫКЛ. ЗВУК':'SOUND OFF'); }
+  snd.onclick=function(){ v.muted=!v.muted; if(!v.muted){ v.currentTime=0; v.play(); } sndLabel(); };
+
+  var cp=document.getElementById('cp');
+  cp.onclick=function(){
+    var t=document.getElementById('mail').textContent;
+    function done(){ cp.textContent= cur==='ru'?'Скопировано':'Copied'; setTimeout(function(){ cp.textContent= cur==='ru'?'Копировать':'Copy'; },1600); }
+    if(navigator.clipboard){ navigator.clipboard.writeText(t).then(done,function(){ sel(); }); } else sel();
+    function sel(){ var r=document.createRange(); r.selectNodeContents(document.getElementById('mail')); var s=getSelection(); s.removeAllRanges(); s.addRange(r); }
+  };
+  setLang(cur);
+})();
+</script>
+</body>
+</html>
