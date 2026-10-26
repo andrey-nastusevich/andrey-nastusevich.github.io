@@ -773,6 +773,28 @@
       }
     }
 
+
+    .work--landscape {
+      grid-column: 1 / -1;
+      grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+      align-items: center
+    }
+
+    .work--landscape .v {
+      aspect-ratio: 4 / 3;
+      max-width: none
+    }
+
+    .work--landscape .v video {
+      object-fit: contain
+    }
+
+    @media (max-width:760px) {
+      .work--landscape {
+        grid-template-columns: minmax(0, 1fr)
+      }
+    }
+
     /* шутка: рендер следующей работы */
     .render {
       margin-top: 22px;
@@ -1621,6 +1643,26 @@
               <li class="b" data-s data-en="Filming" data-ru="Съёмка">Filming</li>
               <li data-s>Speed ramps</li>
               <li data-s data-en="Color" data-ru="Цвет">Color</li>
+              <li data-s data-en="Sound design" data-ru="Саунд-дизайн">Sound design</li>
+            </ul>
+          </div>
+        </article>
+        <article class="work work--landscape glass" id="work-skvorcy">
+          <div class="v"><video src="media/skvorcy-v04.mp4" poster="media/skvorcy-v04.jpg" loop playsinline controls
+              preload="none" aria-label="Skvortsy / Скворцы — motion design"></video></div>
+          <div>
+            <div class="tcode"><span data-en="V3 · spec" data-ru="V3 · spec">V3 · spec</span><span>4:3 ·
+                00:00:23</span></div>
+            <h3 data-en="Skvortsy" data-ru="Скворцы">Skvortsy</h3>
+            <p data-en="A motion film built from polo and flag mockups: the print peels off the fabric, words assemble a bird, and a match cut leads into the designer’s name. Motion, editing and sound design by me."
+              data-ru="Моушн-кейс на основе мокапов поло и флага: принт отделяется от ткани, слова собирают птицу, а матч-кат переводит к имени дизайнера. Моушн, монтаж и саунд-дизайн — мои.">
+              A motion film built from polo and flag mockups: the print peels off the fabric, words assemble a bird,
+              and a match cut leads into the designer’s name. Motion, editing and sound design by me.</p>
+            <p data-en="Graphic design and mockups: Alexey Stravinskas."
+              data-ru="Графический дизайн и мокапы — Алексей Стравинскас.">Graphic design and mockups: Alexey Stravinskas.</p>
+            <ul class="tags">
+              <li class="b" data-s data-en="Motion design" data-ru="Моушн-дизайн">Motion design</li>
+              <li data-s data-en="Kinetic type" data-ru="Кинетическая типографика">Kinetic type</li>
               <li data-s data-en="Sound design" data-ru="Саунд-дизайн">Sound design</li>
             </ul>
           </div>
