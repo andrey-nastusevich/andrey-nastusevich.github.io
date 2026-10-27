@@ -1747,7 +1747,46 @@ html.cc #portfolio-monitor dialog[open] button,html.cc #portfolio-monitor dialog
 #portfolio-monitor .section-heading .icon-button{min-height:44px}
 #portfolio-monitor .transport .icon-button{min-width:44px;width:44px}
 
-  </style>
+  /* Studio motion: one readable system, no blocking loader or random text. */
+:root{--ease-out:cubic-bezier(.23,1,.32,1);--ease-in-out:cubic-bezier(.77,0,.175,1)}
+.top-seam{position:absolute;inset:auto 0 -1px;height:2px;pointer-events:none;background:var(--blue);transform:scaleX(0);transform-origin:left;opacity:0}
+.btn,.lnk,.ctrl button,.clip,.vsnd{transition:transform 160ms var(--ease-out),background-color 160ms ease,border-color 160ms ease,color 160ms ease}
+.btn:active,.lnk:active,.ctrl button:active,.clip:active,.vsnd:active{transform:scale(.97)}
+.card:hover,.work:hover{transform:none;border-color:var(--line)}
+.card:hover .tcode,.work:hover .tcode{color:var(--mute)}
+.h2 .wipe{inset:auto 0 -10px;height:2px;transform:scaleX(0);transform-origin:left}
+.h2.cut .wipe{animation:studio-rule 250ms var(--ease-out) both}
+.h2.cut>span:not(.wipe){display:inline-block;animation:studio-copy 250ms var(--ease-out) both}
+@keyframes studio-rule{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes studio-copy{from{opacity:.35;transform:translateY(8px)}to{opacity:1;transform:none}}
+.step::before{width:100%;transform:scaleX(0);transform-origin:left;transition:transform 250ms var(--ease-out)}
+.step.in::before{transform:scaleX(1)}
+.step:nth-child(2)::before{transition-delay:60ms}.step:nth-child(3)::before{transition-delay:120ms}.step:nth-child(4)::before{transition-delay:180ms}
+html.studio-entry .hero .rv{animation:studio-copy 560ms var(--ease-out) both}
+html.studio-entry .hero .d1{animation-delay:40ms}html.studio-entry .hero .d2{animation-delay:80ms}html.studio-entry .hero .d3{animation-delay:120ms}html.studio-entry .hero .d4{animation-delay:160ms}
+html.studio-entry .phone .fr{animation:studio-frame 640ms var(--ease-out) both}
+@keyframes studio-frame{from{opacity:.35;transform:scale(.97)}to{opacity:1;transform:none}}
+#three,#bg{transition:opacity 250ms ease}
+html.media-watching #three{opacity:.18}html.media-watching #bg{opacity:.3}
+#portfolio-monitor .media-slot{position:relative}
+#portfolio-monitor .pm-next-project{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);max-width:calc(100% - 24px);border:1px solid var(--blue);border-radius:9px;background:var(--surface);color:var(--ink);padding:12px 16px;min-height:44px;font:500 13px/1.4 var(--body);z-index:3;white-space:normal}
+#portfolio-monitor .film-choice.suggested{outline:1px solid var(--blue-hi);outline-offset:-1px}
+#portfolio-monitor dialog.cinema-entering::backdrop{animation:cinema-dim 280ms ease both}
+#portfolio-monitor dialog.cinema-leaving::backdrop{animation:cinema-undim 180ms ease both}
+@keyframes cinema-dim{from{opacity:0}to{opacity:1}}@keyframes cinema-undim{from{opacity:1}to{opacity:0}}
+.package-offer{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px;align-items:center;margin-top:20px;padding:26px;border:1px solid var(--blue);border-radius:14px;background:rgba(43,91,255,.08)}
+.package-offer h3{font:700 clamp(20px,2.4vw,28px)/1.25 var(--f-disp);letter-spacing:-.02em;margin:0 0 12px}
+.package-offer p{margin:0;color:var(--dim);max-width:62ch}.package-offer .package-example{margin-top:14px;font:500 14px/1.6 var(--f-mono);color:var(--ink)}
+.package-example s{color:var(--mute);margin-inline:4px 10px}.package-example strong{font-weight:700;color:var(--blue-hi)}
+.package-offer .package-note{margin-top:8px;font-size:13px}.package-offer .btn{box-shadow:none;white-space:nowrap}
+@media(max-width:740px){.package-offer{grid-template-columns:1fr;padding:22px;gap:20px}.package-offer .btn{justify-content:center}}
+@media(hover:none){.btn:hover,.lnk:hover{transform:none}}
+@media(prefers-reduced-motion:reduce){html.studio-entry .hero .rv,html.studio-entry .phone .fr,.h2.cut .wipe,.h2.cut>span:not(.wipe){animation:none}.h2.cut .wipe{transform:scaleX(1)}.btn:active,.lnk:active,.ctrl button:active,.clip:active,.vsnd:active{transform:none}.step::before{transition:none}.top-seam{display:none}#portfolio-monitor dialog.cinema-entering::backdrop,#portfolio-monitor dialog.cinema-leaving::backdrop{animation:none}}
+#portfolio-monitor .icon-button,#portfolio-monitor .expand-button,#portfolio-monitor .film-choice{transition:transform 160ms var(--ease-out),background-color 160ms ease}
+#portfolio-monitor .icon-button:active,#portfolio-monitor .expand-button:active,#portfolio-monitor .film-choice:active{transform:scale(.97)}
+@media(prefers-reduced-motion:reduce){#portfolio-monitor .icon-button:active,#portfolio-monitor .expand-button:active,#portfolio-monitor .film-choice:active{transform:none}}
+
+</style>
 </head>
 
 <body>
@@ -1769,7 +1808,7 @@ html.cc #portfolio-monitor dialog[open] button,html.cc #portfolio-monitor dialog
   <div class="cur" id="cur" aria-hidden="true"></div>
   <div class="ring" id="ring" aria-hidden="true"></div>
 
-  <header class="top">
+  <header class="top"><span class="top-seam" id="topSeam" aria-hidden="true"></span>
     <a class="brand" href="#hero"><span class="rec" aria-hidden="true"></span><span data-s>Andrey N.</span><span
         class="nm">/ EDIT</span></a>
     <span class="tc" id="tc" aria-hidden="true">00:00:00:00</span>
@@ -1982,7 +2021,7 @@ html.cc #portfolio-monitor dialog[open] button,html.cc #portfolio-monitor dialog
             data-ru="Ты присылаешь исходники — я возвращаю готовый рилс: хук в первую секунду, темп, субтитры в твоём стиле, музыка и чистый звук.">
             You send raw footage, I return a ready reel: a hook in the first second, pacing, subtitles in your style,
             music and clean sound.</p>
-          <div class="price"><small data-en="from" data-ru="от">from</small> 25 €</div>
+          <div class="price"><small data-en="from" data-ru="от">from</small> 20 €</div>
         </article>
         <article class="card glass">
           <div class="tcode"><span>V2 · Novi Sad</span><span>00:00:15–00:00:45</span></div>
@@ -2003,10 +2042,13 @@ html.cc #portfolio-monitor dialog[open] button,html.cc #portfolio-monitor dialog
           <div class="price"><small data-en="price on request" data-ru="цена по запросу">price on request</small></div>
         </article>
       </div>
-      <div class="offer"><b>−50%</b><span
-          data-en="Your first video comes at half price — try it without risk. Monthly packages of 4+ reels are cheaper."
-          data-ru="Первый ролик — за полцены, чтобы попробовать без риска. Пакет от 4 рилсов в месяц — дешевле.">Your
-          first video comes at half price — try it without risk. Monthly packages of 4+ reels are cheaper.</span></div>
+      <div class="package-offer">
+        <div><h3 data-en="5+ videos — 15% off" data-ru="От 5 роликов — скидка 15%">5+ videos — 15% off</h3>
+          <p data-en="Order a package of five or more videos and save 15% on editing." data-ru="Закажи монтаж пакетом от пяти роликов — получи скидку 15%.">Order a package of five or more videos and save 15% on editing.</p>
+          <p class="package-example"><span data-en="5 × 20 € =" data-ru="5 × 20 € =">5 × 20 € =</span> <s>100 €</s> <strong>85 €</strong></p>
+          <p class="package-note" data-en="Example at the starting editing rate. Final price depends on the brief." data-ru="Пример по базовой стоимости монтажа. Итоговая цена зависит от задачи.">Example at the starting editing rate. Final price depends on the brief.</p>
+        </div><a class="btn" href="#contact" data-en="Discuss a package ↗" data-ru="Обсудить пакет ↗">Discuss a package ↗</a>
+      </div>
     </section>
 
     <section id="process">
@@ -2107,6 +2149,47 @@ html.cc #portfolio-monitor dialog[open] button,html.cc #portfolio-monitor dialog
     </div>
   </nav>
 
+<script>
+/* Analyse only the site's media, without a microphone or altered gain. */
+(() => {
+  const nodes = new WeakMap();
+  let context = null;
+  const audio = {
+    level: 0,
+    async prepare(video) {
+      if (!video || !navigator.userActivation?.hasBeenActive) return false;
+      const Audio = window.AudioContext || window.webkitAudioContext;
+      if (!Audio) return false;
+      try {
+        context ||= new Audio();
+        if (context.state !== 'running') await context.resume();
+        if (context.state !== 'running') return false;
+        if (!nodes.has(video)) {
+          const source = context.createMediaElementSource(video);
+          source.connect(context.destination);
+          try {
+            const analyser = context.createAnalyser(); analyser.fftSize = 1024;
+            source.connect(analyser);
+            nodes.set(video, { analyser, samples: new Uint8Array(analyser.fftSize) });
+          } catch { nodes.set(video, null) }
+        }
+        return !!nodes.get(video);
+      } catch { return false }
+    },
+    sample(video) {
+      const node = video && nodes.get(video);
+      if (!node || context?.state !== 'running' || video.paused || video.muted || video.volume === 0) return 0;
+      node.analyser.getByteTimeDomainData(node.samples);
+      let power = 0;
+      for (const value of node.samples) { const amplitude = (value - 128) / 128; power += amplitude * amplitude }
+      return Math.min(1, Math.sqrt(power / node.samples.length) * 4);
+    },
+    state() { return context?.state || 'native' }
+  };
+  window.studioAudio = audio;
+})();
+
+</script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script>
     /* ===== Контакты: пустое поле не показывается ===== */
@@ -2140,24 +2223,11 @@ html.cc #portfolio-monitor dialog[open] button,html.cc #portfolio-monitor dialog
     const store = { get: k => { try { return localStorage.getItem(k) } catch (e) { return null } }, set: (k, v) => { try { localStorage.setItem(k, v) } catch (e) { } } };
 
     /* ================= ВСПЫШКА-СКЛЕЙКА ================= */
-    function flash() { if (reduce) return; const f = $('#flash'); f.classList.remove('on'); void f.offsetWidth; f.classList.add('on'); }
-
-    /* ================= ПЕРЕБОР СИМВОЛОВ ================= */
-    const GLYPHS = '0123456789:/#_<>[]';
-    function scramble(el) {
-      if (reduce || el._sc || el.children.length) return; const target = el.textContent, token = {}; el._sc = token; const len = target.length; let f = 0; const F = Math.min(18, 8 + len * .6);
-      (function step() {
-        if (el._sc !== token) return;
-        f++; let out = ''; for (let i = 0; i < len; i++) { const ch = target[i]; if (ch === ' ' || i < (f / F) * len) out += ch; else out += GLYPHS[(Math.random() * GLYPHS.length) | 0] }
-        el.textContent = out; if (f < F) requestAnimationFrame(step); else { el.textContent = target; el._sc = false }
-      })();
+    function flash() {
+      if(reduce)return;
+      const seam=$('#topSeam'); seam.getAnimations().forEach(a=>a.cancel());
+      seam.animate([{transform:'scaleX(0)',opacity:1},{transform:'scaleX(1)',opacity:1,offset:.7},{transform:'scaleX(1)',opacity:0}],{duration:250,easing:'cubic-bezier(.23,1,.32,1)'});
     }
-    document.addEventListener('pointerover', e => {
-      const host = e.target.closest('a,button,.card,.work'); if (!host || host.contains(e.relatedTarget)) return;
-      host.querySelectorAll('[data-s]').forEach(scramble);
-      if (host.hasAttribute('data-s')) scramble(host);
-      if (host.classList.contains('clip')) scramble(host);
-    });
 
     /* ================= КОНТАКТЫ ================= */
     let copyTimer;
@@ -2242,9 +2312,12 @@ html.cc #portfolio-monitor dialog[open] button,html.cc #portfolio-monitor dialog
       vsnd.setAttribute('aria-pressed', String(!hv.muted));
       vplay.textContent = hv.paused ? T[lang].play : T[lang].pause;
     }
+    function isWatchingMedia() { return videos.some(v=>!v.paused&&!v.ended&&(v!==hv||!v.muted)) }
+    function syncWatching() { root.classList.toggle('media-watching',isWatchingMedia()); if(reduce) drawWave() }
+    videos.forEach(v=>['play','pause','ended','volumechange'].forEach(event=>v.addEventListener(event,syncWatching)));
     function pauseOtherVideos(current) { videos.forEach(v => { if (v !== current) v.pause() }) }
     function playVideo(v) {
-      pauseOtherVideos(v);
+      pauseOtherVideos(v); window.studioAudio?.prepare(v);
       const result = v.play();
       if (result && result.catch) result.catch(() => vsndLabel());
     }
@@ -2254,7 +2327,7 @@ html.cc #portfolio-monitor dialog[open] button,html.cc #portfolio-monitor dialog
       v.addEventListener('volumechange', () => { if (!v.muted && !v.paused) pauseOtherVideos(v); vsndLabel() });
     });
     vplay.addEventListener('click', () => { if (hv.paused) playVideo(hv); else hv.pause() });
-    vsnd.addEventListener('click', () => { hv.muted = !hv.muted; if (!hv.muted && hv.paused) playVideo(hv); vsndLabel() });
+    vsnd.addEventListener('click', () => { hv.muted = !hv.muted; if(!hv.muted) window.studioAudio?.prepare(hv); if (!hv.muted && hv.paused) playVideo(hv); vsndLabel() });
     hv.controls = false; $('#vcontrols').hidden = false;
     const mediaObserver = new IntersectionObserver(entries => entries.forEach(e => {
       if (!e.isIntersecting && !e.target.closest('dialog')) e.target.pause();
@@ -2279,13 +2352,16 @@ html.cc #portfolio-monitor dialog[open] button,html.cc #portfolio-monitor dialog
 
     const wv = $('#wave'), wx = wv.getContext('2d'); let WW = 0, WH = 0, wdata = [];
     function sizeWave() { const r = Math.min(2, devicePixelRatio || 1); WW = wv.clientWidth; WH = wv.clientHeight; wv.width = WW * r; wv.height = WH * r; wx.setTransform(r, 0, 0, r, 0, 0); const n = Math.ceil(WW / 3); while (wdata.length < n) wdata.unshift(.06); wdata = wdata.slice(-n) }
-    let wt = 0;
+    let waveTime = 0, waveLevel = 0;
     function drawWave() {
-      wt++; const playing = !hv.muted && !hv.paused;
-      const amp = Math.min(1, Math.abs(scrollVel) / 45) * .85 + (playing ? .18 + .14 * Math.sin(wt * .21) * Math.sin(wt * .037) : 0) + Math.random() * .08 + .04;
-      if (wt % 2 === 0) { wdata.push(Math.min(1, amp)); wdata.shift() }
-      wx.clearRect(0, 0, WW, WH); const mid = WH / 2, c = PAL[theme()].wave;
-      for (let i = 0; i < wdata.length; i++) { const h = Math.max(1, wdata[i] * (WH - 2)); wx.fillStyle = wdata[i] > .7 ? c[0] : wdata[i] > .4 ? c[1] : c[2]; wx.fillRect(i * 3, mid - h / 2, 2, h) }
+      const now=performance.now(); if(now-waveTime<32)return; waveTime=now;
+      const active=videos.find(v=>!v.paused&&!v.ended&&!v.muted&&v.volume>0);
+      const sample=window.studioAudio?.sample(active)||0;
+      waveLevel += (sample-waveLevel)*(sample>waveLevel?.6:.25);
+      if(window.studioAudio)window.studioAudio.level=waveLevel;
+      wdata.push(waveLevel);wdata.shift();
+      wx.clearRect(0,0,WW,WH);const mid=WH/2,c=PAL[theme()].wave;
+      for(let i=0;i<wdata.length;i++){const value=wdata[i],h=Math.max(1,value*(WH-2));wx.fillStyle=value>.7?c[0]:value>.4?c[1]:c[2];wx.fillRect(i*3,mid-h/2,2,h)}
     }
 
     /* ================= ШТОРКИ ЗАГОЛОВКОВ + РЕНДЕР ================= */
@@ -2293,7 +2369,7 @@ html.cc #portfolio-monitor dialog[open] button,html.cc #portfolio-monitor dialog
       const h = e.target;
       if (h.id === 'render') { R.visible = e.isIntersecting; return }
       if (h.classList.contains('step')) { if (e.isIntersecting) h.classList.add('in'); return }
-      if (e.isIntersecting) { h.classList.remove('cut'); void h.offsetWidth; h.classList.add('cut') }
+      if (e.isIntersecting) { h.classList.add('cut'); io.unobserve(h) }
     }), { threshold: .5 });
     $$('.h2').forEach(h => io.observe(h)); $$('.step').forEach(s => io.observe(s));
     const R = { visible: false, phase: 0, t: 0, ver: 7 };
@@ -2438,32 +2514,39 @@ html.cc #portfolio-monitor dialog[open] button,html.cc #portfolio-monitor dialog
       };
       const items = $$('.a3d').map((el, i) => {
         const obj = build[el.dataset.o](); const tilt = new TH.Group(); tilt.add(obj); scene.add(tilt);
-        return { el, obj, tilt, i, py: null, spin: .004 + i * .0007 }
+        obj.rotation.set(.1,-.2,0);
+        return { el, obj, tilt, i, py: null, pose:{x:0,y:0,vx:0,vy:0} }
       });
       function size() { renderer.setSize(innerWidth, innerHeight, false); cam.aspect = innerWidth / innerHeight; cam.updateProjectionMatrix() }
       size(); addEventListener('resize', size);
-      T3.theme = th => { renderer.toneMappingExposure = th === 'light' ? 1.2 : 1.05; amb.intensity = th === 'light' ? .55 : .25; M.dark.color.set(th === 'light' ? 0x2a2e3d : 0x1a1d29); };
+      let sceneDirty=true;
+      T3.theme = th => { sceneDirty=true; renderer.toneMappingExposure = th === 'light' ? 1.2 : 1.05; amb.intensity = th === 'light' ? .55 : .25; M.dark.color.set(th === 'light' ? 0x2a2e3d : 0x1a1d29); };
       T3.theme(theme());
       T3.ok = true;
+      let previousTime=0;
       T3.frame = (time) => {
+        const dt=Math.min(.032,Math.max(.001,(time-previousTime)/1000));previousTime=time;
+        const watching=isWatchingMedia();
         const h = innerHeight, w = innerWidth, upp = 2 * cam.position.z * Math.tan(cam.fov * Math.PI / 360) / h;
-        let any = false;
+        let any = false, changed=sceneDirty;sceneDirty=false;
         for (const it of items) {
-          const r = it.el.getBoundingClientRect(); const vis = r.bottom > -150 && r.top < h + 150; it.tilt.visible = vis; if (!vis) { it.py = null; continue } any = true;
+          const r = it.el.getBoundingClientRect(); const vis = r.bottom > -150 && r.top < h + 150; if(vis!==it.tilt.visible)changed=true; it.tilt.visible = vis; if (!vis) { it.py = null; continue } any = true;
           const tx = (r.left + r.width / 2 - w / 2) * upp, ty = -(r.top + r.height / 2 - h / 2) * upp;
           if (it.py === null || reduce) it.py = ty; else it.py += (ty - it.py) * .22;
+          const key=[w,h,tx.toFixed(3),it.py.toFixed(3),r.width.toFixed(2),it.tilt.rotation.x.toFixed(4),it.tilt.rotation.y.toFixed(4)].join(',');if(key!==it.lastKey){changed=true;it.lastKey=key}
           it.tilt.position.set(tx, it.py, 0);
           it.tilt.scale.setScalar(r.width * upp / it.obj.userData.base);
-          if (!reduce) {
-            const ax = mx > -999 ? (my / h - .5) * .6 : 0, ay = mx > -999 ? (mx / w - .5) * .8 : 0;
-            it.tilt.rotation.x += (ax - it.tilt.rotation.x) * .05; it.tilt.rotation.y += (ay - it.tilt.rotation.y) * .05;
-            const o = it.obj, v = scrollVel * .0015;
-            if (o.userData.spinZ) { o.rotation.z -= (R.phase === 0 && R.visible ? .05 : .012) + Math.abs(v); o.rotation.y = Math.sin(time * .0006) * .35 }
-            else if (o.userData.hinge) { o.rotation.y = Math.sin(time * .0005) * .45; const c = (time % 2600) / 2600; o.userData.hinge.rotation.z = c < .08 ? (.5 * (1 - c / .08)) : c < .12 ? 0 : Math.min(.5, (c - .12) * 4) }
-            else { o.rotation.x += it.spin + v; o.rotation.y += it.spin * 1.3 + v }
-          }
+          if (!reduce && !watching) {
+            const ax=mx>-999?(my/h-.5)*.25:0, ay=mx>-999?(mx/w-.5)*.4:0;
+            const impulse=Math.max(-.12,Math.min(.12,scrollVel*.004));
+            const pose=it.pose;
+            pose.vx+=(100*(ax+impulse-pose.x)-10*pose.vx)*dt;
+            pose.vy+=(100*(ay-pose.y)-10*pose.vy)*dt;
+            pose.x+=pose.vx*dt;pose.y+=pose.vy*dt;
+            it.tilt.rotation.set(pose.x,pose.y,0);
+          } else if(reduce) { it.tilt.rotation.set(0,0,0) }
         }
-        renderer.clear(); if (any) renderer.render(scene, cam);
+        if(changed){renderer.clear();if(any)renderer.render(scene,cam)}
       };
     }
 
@@ -2494,38 +2577,18 @@ html.cc #portfolio-monitor dialog[open] button,html.cc #portfolio-monitor dialog
       const dt = Math.min(64, t - lastT); lastT = t;
       scrollVel += ((scrollY - lastY) - scrollVel) * .3; lastY = scrollY;
       if (fine && !reduce) { rx += (mx - rx) * .2; ry += (my - ry) * .2; ring.style.transform = 'translate(' + rx + 'px,' + ry + 'px)' }
-      if (!reduce) drawBg(t);
+      if (!reduce && !isWatchingMedia()) drawBg(t);
       updateVideoTime();
       drawWave(); renderTick(dt);
       if (T3.ok) T3.frame(t);
       frameId = requestAnimationFrame(loop);
     }
 
-    /* ================= ЗАГРУЗКА: экспорт 0→100% ================= */
-    (function loader() {
-      const ld = $('#ld');
-      const finish = () => { root.classList.remove('loading'); root.classList.add('ready') };
-      if (reduce) { ld.remove(); finish(); return }
-      ld.style.display = 'grid'; root.classList.add('loading');
-      setTimeout(finish, 7000); /* Text remains available if the loader fails. */
-      $('#ldSt').textContent = T[lang].ex;
-      let loaded = document.readyState === 'complete'; addEventListener('load', () => { loaded = true });
-      const t0 = performance.now(), MIN = 1500, MAX = 4500; let shown = 0, closing = false;
-      (function step(now) {
-        if (!ld.isConnected) { finish(); return }
-        const el = now - t0, k = Math.min(1, el / MIN);
-        let target = 1 - Math.pow(1 - k, 2.4);
-        if (!loaded && el < MAX) target = Math.min(target, .92);
-        shown += (target - shown) * .18; if (target >= 1 && shown > .995) shown = 1;
-        const p = Math.floor(shown * 100);
-        $('#ldP').textContent = p; $('#ldB').style.width = (shown * 100) + '%';
-        $('#ldF').textContent = Math.round(shown * 1500); $('#ldTc').textContent = tcode(Math.round(shown * 1500));
-        if (shown >= 1 && !closing) {
-          closing = true; $('#ldSt').textContent = T[lang].done;
-          setTimeout(() => { flash(); ld.classList.add('out'); setTimeout(finish, 120); setTimeout(() => ld.remove(), 800) }, 260); return
-        }
-        requestAnimationFrame(step);
-      })(t0);
+    /* First entry is brief and never blocks navigation or playback. */
+    (function entry() {
+      $('#ld')?.remove();root.classList.remove('loading');root.classList.add('ready');
+      let seen=false;try{seen=sessionStorage.getItem('studio-entry-v1');sessionStorage.setItem('studio-entry-v1','1')}catch{}
+      if(!reduce&&!seen&&!location.hash){root.classList.add('studio-entry');setTimeout(()=>root.classList.remove('studio-entry'),850)}
     })();
 
     /* ================= СТАРТ ================= */
@@ -2585,6 +2648,8 @@ html.cc #portfolio-monitor dialog[open] button,html.cc #portfolio-monitor dialog
   }
   function updateControls() {
     const paused = film.paused;
+    nextPrompt.hidden = !film.ended || switching;
+    if(!film.ended)choices.forEach(button=>button.classList.remove('suggested'));
     q('#pm-play').setAttribute('aria-label', paused ? text().play : text().pause);
     q('#pm-play-symbol').innerHTML = paused ? '<path d="m9 5 11 7-11 7Z"/>' : '<path d="M8 5v14 M16 5v14"/>';
     q('#pm-play-symbol').style.fill = paused ? 'currentColor' : 'none';
@@ -2604,11 +2669,13 @@ html.cc #portfolio-monitor dialog[open] button,html.cc #portfolio-monitor dialog
   async function togglePlay() {
     if (switching) return;
     if (!film.paused) { film.pause(); return }
+    window.studioAudio?.prepare(film);
     try { await film.play(); q('#pm-status').textContent = '' } catch (error) { if (error.name !== 'AbortError') q('#pm-status').textContent = text().playError }
     updateControls();
   }
   function updateCopy() {
     const index = selected, w = work();
+    nextPrompt.textContent=text().next+' → '+text().short[(selected+1)%works.length];
     q('#pm-project-title').textContent = w.title;
     q('#pm-project-kind').textContent = w.kind;
     q('#pm-project-description').textContent = w.description;
@@ -2664,43 +2731,94 @@ html.cc #portfolio-monitor dialog[open] button,html.cc #portfolio-monitor dialog
     revision++; switching = false;
     root.querySelectorAll('.transition-sheet').forEach(el=>{el.getAnimations().forEach(a=>a.cancel());el.style.transform='scaleX(0)'});
   }
-  function openCinema(event) {
+  const screen = q('#pm-screen');
+  const cinemaScreen = q('.cinema-screen');
+  const cinemaChrome = [q('.cinema-header'), q('#pm-cinema-controls'), q('.cinema-caption')];
+  const nextPrompt = document.createElement('button');
+  nextPrompt.type = 'button'; nextPrompt.id = 'pm-next-project'; nextPrompt.className = 'pm-next-project'; nextPrompt.hidden = true;
+  film.parentElement.append(nextPrompt);
+  let cinemaAnimations = [], opening = false;
+
+  function mediaBox(frame) {
+    const aspect = film.videoWidth && film.videoHeight ? film.videoWidth / film.videoHeight : works[selected].format.split(':').map(Number).reduce((a,b)=>a/b);
+    const width = Math.min(frame.width, frame.height * aspect), height = width / aspect;
+    return { x: frame.left + (frame.width-width)/2, y: frame.top + (frame.height-height)/2, width, height };
+  }
+  function geometry() {
+    const origin = screen.getBoundingClientRect(), target = cinemaScreen.getBoundingClientRect(), dialog = cinema.getBoundingClientRect();
+    if (origin.bottom < 56 || origin.top > innerHeight - 80 || origin.width < 1 || target.width < 1) return null;
+    const a = mediaBox(origin), b = mediaBox(target);
+    const dx = a.x + a.width/2 - b.x - b.width/2, dy = a.y + a.height/2 - b.y - b.height/2;
+    return {
+      clip: `inset(${origin.top-dialog.top}px ${dialog.right-origin.right}px ${dialog.bottom-origin.bottom}px ${origin.left-dialog.left}px round 14px)`,
+      transform: `translate(${dx}px,${dy}px) scale(${a.width/b.width})`
+    };
+  }
+  function clearCinemaMotion() {
+    cinemaAnimations.forEach(animation=>animation.cancel()); cinemaAnimations = [];
+    cinema.style.clipPath = ''; cinema.style.opacity = '';
+    film.style.transform = ''; film.style.transformOrigin = '';
+    cinemaChrome.forEach(el=>el.style.opacity='');
+    cinema.classList.remove('cinema-entering','cinema-leaving'); opening = false;
+  }
+  function animateCinema(open, fromClip, fromVideo, fromOpacity) {
+    const origin = geometry(), duration = open ? 280 : 180;
+    cinema.classList.add(open ? 'cinema-entering' : 'cinema-leaving');
+    if (origin) {
+      cinemaAnimations.push(cinema.animate(
+        [{clipPath:fromClip || origin.clip},{clipPath:open?'inset(0px 0px 0px 0px round 16px)':origin.clip}],
+        {duration,easing:easeOut,fill:'both'}));
+      film.style.transformOrigin = '50% 50%';
+      cinemaAnimations.push(film.animate(
+        [{transform:fromVideo || origin.transform},{transform:open?'translate(0px,0px) scale(1)':origin.transform}],
+        {duration,easing:easeOut,fill:'both'}));
+    } else {
+      cinemaAnimations.push(cinema.animate([{opacity:fromOpacity ?? (open?0:1)},{opacity:open?1:0}],{duration,easing:easeOut,fill:'both'}));
+    }
+    cinemaChrome.forEach(el=>{
+      cinemaAnimations.push(el.animate([{opacity:open?0:1},{opacity:open?1:0}],{duration:open?160:120,delay:open?120:0,easing:easeOut,fill:'both'}));
+    });
+    return Promise.allSettled(cinemaAnimations.map(animation=>animation.finished));
+  }
+  async function openCinema(event) {
     if (cinema.open) return;
-    finishSwitch();
+    finishSwitch(); clearCinemaMotion(); opening = true;
     const playing = !film.paused;
-    q('#pm-cinema-slot').append(film); q('#pm-cinema-controls').append(transport);
+    q('#pm-cinema-slot').append(film, nextPrompt); q('#pm-cinema-controls').append(transport);
     cinema.showModal(); document.body.classList.add('portfolio-cinema-open');
-    if(!motion.matches && event.detail !== 0) cinema.animate([{opacity:0,transform:'scale(.97)'},{opacity:1,transform:'scale(1)'}],{duration:240,easing:easeOut});
     if(playing) film.play().catch(()=>{});
     updateControls(); q('#pm-close-cinema').focus();
+    if (!motion.matches && event.detail !== 0) await animateCinema(true);
+    if (opening) clearCinemaMotion();
   }
   async function closeCinema(animate = true) {
-    if(!cinema.open || closeAnimation) return;
+    if (!cinema.open || closeAnimation) return;
     finishSwitch();
-    if(animate && !motion.matches) {
-      closeAnimation = cinema.animate([{opacity:1,transform:'scale(1)'},{opacity:0,transform:'scale(.97)'}],{duration:180,easing:easeOut});
-      try { await closeAnimation.finished } catch { }
-      closeAnimation = null;
-    }
-    cinema.close();
+    const rawClip = getComputedStyle(cinema).clipPath, clip = rawClip==='none'?'inset(0px 0px 0px 0px round 16px)':rawClip, transform = getComputedStyle(film).transform, opacity = getComputedStyle(cinema).opacity;
+    clearCinemaMotion(); closeAnimation = true;
+    if (animate && !motion.matches) await animateCinema(false,clip,transform,opacity);
+    clearCinemaMotion(); cinema.close(); closeAnimation = null;
   }
   cinema.addEventListener('close',()=>{
     const playing = !film.paused;
-    q('#pm-normal-slot').append(film); q('#pm-transport-home').append(transport);
+    clearCinemaMotion();
+    q('#pm-normal-slot').append(film, nextPrompt); q('#pm-transport-home').append(transport);
     document.body.classList.remove('portfolio-cinema-open'); updateControls();
     if(playing) film.play().catch(()=>{});
     q('#pm-expand').focus();
   });
+  nextPrompt.addEventListener('click',event=>selectWork(selected+1,event.detail!==0));
   cinema.addEventListener('cancel',e=>{e.preventDefault();closeCinema(false)});
   q('#pm-expand').addEventListener('click',openCinema);
   q('#pm-close-cinema').addEventListener('click',event=>closeCinema(event.detail!==0));
   q('#pm-play').addEventListener('click',togglePlay); q('#pm-play-overlay').addEventListener('click',togglePlay);
-  q('#pm-mute').addEventListener('click',()=>{film.muted=!film.muted;updateControls()});
+  q('#pm-mute').addEventListener('click',()=>{film.muted=!film.muted;if(!film.muted)window.studioAudio?.prepare(film);updateControls()});
   q('#pm-seek').addEventListener('input',e=>{seeking=true;q('#pm-time-current').textContent=time(e.target.value);q('#pm-seek').setAttribute('aria-valuetext',time(e.target.value)+text().of+time(works[selected].duration))});
   q('#pm-seek').addEventListener('change',e=>{if(Number.isFinite(film.duration))film.currentTime=Number(e.target.value);seeking=false;updateTime()});
   q('#pm-seek').addEventListener('blur',()=>{seeking=false;updateTime()});
   ['play','pause','ended','volumechange'].forEach(event=>film.addEventListener(event,updateControls));
   ['timeupdate','loadedmetadata','durationchange','seeked'].forEach(event=>film.addEventListener(event,updateTime));
+  film.addEventListener('ended',()=>{const next=choices[(selected+1)%works.length];next.classList.add('suggested');if(!motion.matches)nextPrompt.animate([{opacity:0},{opacity:1}],{duration:250,easing:easeOut})});
   film.addEventListener('error',()=>{q('#pm-status').textContent=text().error});
   choices.forEach(button=>button.addEventListener('click',e=>selectWork(Number(button.dataset.work),e.detail!==0)));
   root.querySelectorAll('[data-prev]').forEach(button=>button.addEventListener('click',e=>selectWork(selected-1,e.detail!==0)));
@@ -2714,8 +2832,8 @@ html.cc #portfolio-monitor dialog[open] button,html.cc #portfolio-monitor dialog
   document.addEventListener('portfolio:language',event=>{
     language = event.detail === 'ru' ? 'ru' : 'en'; updateCopy(); updateControls(); updateTime();
   });
-  motion.addEventListener('change',()=>{finishSwitch();updateControls()});
-  addEventListener('resize',layoutFilmstrip); document.fonts.ready.then(indicator);
+  motion.addEventListener('change',()=>{finishSwitch();if(motion.matches)clearCinemaMotion();updateControls()});
+  addEventListener('resize',()=>{layoutFilmstrip();if(cinema.open)clearCinemaMotion()}); document.fonts.ready.then(indicator);
   film.controls=false; transport.hidden=false; root.hidden=false; updateCopy(); updateControls(); updateTime(); layoutFilmstrip();
 })();
   </script>
