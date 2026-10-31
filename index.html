@@ -1640,13 +1640,14 @@ html.cc #portfolio-monitor dialog[open] button,html.cc #portfolio-monitor dialog
 #portfolio-monitor .project-credit{font-size:12px;color:var(--dim);line-height:1.6;margin:18px 0 0}
 #portfolio-monitor .expand-button{display:inline-flex;align-self:flex-start;align-items:center;justify-content:center;gap:12px;min-height:48px;padding:11px 16px;border:0;border-radius:10px;background:var(--blue);color:var(--white);font-size:14px;font-weight:600;transition:transform 120ms var(--ease-out),background-color 160ms ease}
 #portfolio-monitor .expand-button svg{width:18px;height:18px}
-#portfolio-monitor .filmstrip{position:relative;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:18px;padding-top:10px}
+#portfolio-monitor .filmstrip{position:relative;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-top:18px;padding-top:10px}
 #portfolio-monitor .selection-track{height:2px;background:var(--line);position:absolute;left:0;right:0;top:0;overflow:hidden}
-#portfolio-monitor .selection-track>span{display:block;height:100%;width:calc((100% - 24px)/4);background:var(--blue);transform:translateX(0);transition:transform 280ms var(--ease-in-out)}
+#portfolio-monitor .selection-track>span{display:block;height:100%;width:calc((100% - 32px)/5);background:var(--blue);transform:translateX(0);transition:transform 280ms var(--ease-in-out)}
 #portfolio-monitor .film-choice{display:flex;gap:14px;align-items:center;min-width:0;text-align:left;background:transparent;border:0;border-radius:9px;padding:10px;transition:background-color 160ms ease}
 #portfolio-monitor .film-choice img{width:100px;height:68px;object-fit:cover;object-position:center 56%;border-radius:5px;display:block;flex:none}
 #portfolio-monitor .film-choice[data-work="1"] img{object-position:center 62%}
 #portfolio-monitor .film-choice[data-work="2"] img{object-position:center}
+#portfolio-monitor .film-choice[data-work="4"] img{object-position:center 30%}
 #portfolio-monitor .film-choice.selected{background:color-mix(in srgb,var(--blue) 10%,var(--bg))}
 #portfolio-monitor .choice-copy{min-width:0}
 #portfolio-monitor .choice-heading{display:flex;gap:9px;align-items:baseline;margin-bottom:6px}
@@ -1703,7 +1704,7 @@ html.cc #portfolio-monitor dialog[open] button,html.cc #portfolio-monitor dialog
 #portfolio-monitor .clip-index{display:none}
 #portfolio-monitor .choice-heading strong{font-size:13px}
 #portfolio-monitor .choice-meta{font-size:11px;margin-top:5px;line-height:1.55}
-#portfolio-monitor .selection-track>span{width:calc((100% - 18px)/4)}
+#portfolio-monitor .selection-track>span{width:calc((100% - 24px)/5)}
 #portfolio-monitor .transport{gap:7px;padding:6px 8px}
 #portfolio-monitor .transport .icon-button{min-width:38px;width:38px;padding:8px}
 #portfolio-monitor .time-current,#portfolio-monitor .time-total{font-size:11px}
@@ -1725,7 +1726,12 @@ html.cc #portfolio-monitor dialog[open] button,html.cc #portfolio-monitor dialog
 #portfolio-monitor .icon-button,#portfolio-monitor .expand-button,#portfolio-monitor .film-choice,#portfolio-monitor .play-overlay{transition:background-color 120ms ease}
 #portfolio-monitor .icon-button:active,#portfolio-monitor .expand-button:active{transform:none}}
 @media(max-width:740px){#portfolio-monitor .view-column>.filmstrip{margin:0;padding:12px 10px 10px}
-#portfolio-monitor .view-column>.filmstrip>.selection-track{left:10px;right:10px}}
+#portfolio-monitor .view-column>.filmstrip>.selection-track{left:10px;right:10px}
+#portfolio-monitor .filmstrip{display:flex;overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+#portfolio-monitor .filmstrip::-webkit-scrollbar{display:none}
+#portfolio-monitor .film-choice{flex:0 0 96px;scroll-snap-align:start}
+#portfolio-monitor .filmstrip>.selection-track{display:none}
+#portfolio-monitor .choice-heading strong{overflow-wrap:normal}}
 @media(min-width:741px) and (max-height:800px){#portfolio-monitor .section-heading{margin-bottom:16px}
 #portfolio-monitor .section-heading p{font-size:14px}
 #portfolio-monitor .screen{height:clamp(280px,calc(100dvh - 350px),420px)}
@@ -1747,6 +1753,11 @@ html.cc #portfolio-monitor dialog[open] button,html.cc #portfolio-monitor dialog
 #portfolio-monitor .section-heading .icon-button{min-height:44px}
 #portfolio-monitor .transport .icon-button{min-width:44px;width:44px}
 
+@media(min-width:741px) and (max-width:1280px){#portfolio-monitor .film-choice{flex-direction:column;align-items:stretch;gap:9px;padding:8px}
+#portfolio-monitor .film-choice img{width:100%;height:72px}
+#portfolio-monitor .choice-heading{display:block;margin-bottom:4px}
+#portfolio-monitor .clip-index{margin-right:6px}
+#portfolio-monitor .choice-heading strong{overflow-wrap:normal}}
   /* Studio motion: one readable system, no blocking loader or random text. */
 :root{--ease-out:cubic-bezier(.23,1,.32,1);--ease-in-out:cubic-bezier(.77,0,.175,1)}
 .top-seam{position:absolute;inset:auto 0 -1px;height:2px;pointer-events:none;background:var(--blue);transform:scaleX(0);transform-origin:left;opacity:0}
@@ -1872,7 +1883,7 @@ html.media-watching #three{opacity:.18}html.media-watching #bg{opacity:.3}
       <h2 class="h2"><span class="wipe" aria-hidden="true"></span><span data-en="Selected work"
           data-ru="Работы">Selected work</span></h2>
       <div id="portfolio-monitor" hidden>
-<div class="section-heading"><span class="pm-panel-label" data-en="Choose a project" data-ru="Выбери работу">Choose a project</span>      <div class="section-pager"><span class="section-count"><b id="pm-work-count">01</b><span id="pm-work-total">/ 04</span></span><div class="arrow-pair"><button class="icon-button" data-prev type="button" aria-label="Предыдущая работа"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 6-6 6 6 6"/></svg></button><button class="icon-button" data-next type="button" aria-label="Следующая работа"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m10 6 6 6-6 6"/></svg></button></div></div></div>
+<div class="section-heading"><span class="pm-panel-label" data-en="Choose a project" data-ru="Выбери работу">Choose a project</span>      <div class="section-pager"><span class="section-count"><b id="pm-work-count">01</b><span id="pm-work-total">/ 05</span></span><div class="arrow-pair"><button class="icon-button" data-prev type="button" aria-label="Предыдущая работа"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 6-6 6 6 6"/></svg></button><button class="icon-button" data-next type="button" aria-label="Следующая работа"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m10 6 6 6-6 6"/></svg></button></div></div></div>
     <div class="monitor" role="group" aria-label="Просмотр выбранной работы">
       <div class="view-column">
         <div class="monitor-header"><span id="pm-monitor-format">9:16</span><span class="monitor-file" id="pm-monitor-file">three-ways.mp4</span><span class="monitor-resolution" id="pm-resolution">720 × 1280</span></div>
@@ -1910,11 +1921,12 @@ html.media-watching #three{opacity:.18}html.media-watching #bg{opacity:.3}
       <button class="film-choice" type="button" data-work="1"><img src="media/кофе.jpg" alt="" width="128" height="80"><span class="choice-copy"><span class="choice-heading"><span class="clip-index">02</span><strong>Кофе в турке</strong></span><span class="choice-meta">Съёмка · 9:16 · 0:22</span></span></button>
       <button class="film-choice" type="button" data-work="2"><img src="media/скворцы_Stravinskas.jpg" alt="" width="128" height="80"><span class="choice-copy"><span class="choice-heading"><span class="clip-index">03</span><strong>Скворцы</strong></span><span class="choice-meta">Моушн · 4:3 · 0:23</span></span></button>
       <button class="film-choice" type="button" data-work="3"><img src="media/гардероб_Stravinskas.jpg" alt="" width="128" height="80"><span class="choice-copy"><span class="choice-heading"><span class="clip-index">04</span><strong>Гардероб</strong></span><span class="choice-meta">Моушн · 4:3 · 0:24</span></span></button>
+      <button class="film-choice" type="button" data-work="4"><img src="media/ticket.jpg" alt="" width="128" height="80"><span class="choice-copy"><span class="choice-heading"><span class="clip-index">05</span><strong>Билет</strong></span><span class="choice-meta">Моушн · 9:16 · 0:54</span></span></button>
     </nav>
     <p class="player-status" id="pm-status" role="status" aria-live="polite"></p>
   <dialog id="pm-cinema" aria-labelledby="pm-cinema-title">
     <div class="cinema-wrap">
-      <header class="cinema-header"><h2 id="pm-cinema-title">3 способа получить рубли в Сербии</h2><div class="cinema-actions"><span id="pm-cinema-count">01 / 04</span><button class="icon-button" data-prev type="button" aria-label="Предыдущая работа"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 6-6 6 6 6"/></svg></button><button class="icon-button" data-next type="button" aria-label="Следующая работа"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m10 6 6 6-6 6"/></svg></button><button class="icon-button" id="pm-close-cinema" type="button" aria-label="Закрыть крупный просмотр"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12 M18 6 6 18"/></svg></button></div></header>
+      <header class="cinema-header"><h2 id="pm-cinema-title">3 способа получить рубли в Сербии</h2><div class="cinema-actions"><span id="pm-cinema-count">01 / 05</span><button class="icon-button" data-prev type="button" aria-label="Предыдущая работа"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 6-6 6 6 6"/></svg></button><button class="icon-button" data-next type="button" aria-label="Следующая работа"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m10 6 6 6-6 6"/></svg></button><button class="icon-button" id="pm-close-cinema" type="button" aria-label="Закрыть крупный просмотр"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12 M18 6 6 18"/></svg></button></div></header>
       <div class="cinema-screen"><div class="media-slot" id="pm-cinema-slot"></div><div class="transition-sheet" id="pm-cinema-sheet" aria-hidden="true"></div></div>
       <div class="cinema-controls" id="pm-cinema-controls"></div>
       <div class="cinema-caption"><span id="pm-cinema-role">Сценарий, съёмка, монтаж и графика</span><span id="pm-cinema-format">9:16</span></div>
@@ -1992,6 +2004,15 @@ html.media-watching #three{opacity:.18}html.media-watching #bg{opacity:.3}
             <h3>Столичный гардероб</h3>
             <p>Арка логотипа, герои и типографика складываются в постер и семейный билборд. Моушн, монтаж и саунд-дизайн — Андрей Настусевич.</p>
             <p>Графический дизайн и мокапы — Алексей Стравинскас / Alexey Stravinskas.</p>
+          </div>
+        </article>
+        <article class="work glass" id="work-ticket">
+          <div class="v"><video src="media/ticket.mp4" poster="media/ticket.jpg" playsinline controls preload="none" aria-label="Keep the ticket / Не сдавай билет"></video></div>
+          <div><div class="tcode"><span data-en="V5 · own blog" data-ru="V5 · мой блог">V5 · own blog</span><span>9:16 · 00:00:54</span></div>
+            <h3 data-en="Keep the ticket" data-ru="Не сдавай билет">Keep the ticket</h3>
+            <p data-en="A motivational talking head in a night-cinema look: kinetic typography, full-screen motion scenes and a sound on every move. Script, filming, edit and motion graphics by me. In Russian."
+              data-ru="Мотивационная говорящая голова в стиле «ночного кино»: кинетическая типографика, полноэкранные моушн-сцены и звук на каждое движение. Текст, съёмка, монтаж и моушн-графика — мои.">A motivational talking head in a night-cinema look: kinetic typography, full-screen motion scenes and a sound on every move. Script, filming, edit and motion graphics by me. In Russian.</p>
+            <p data-en="B-roll: stock footage and AI-generated clips." data-ru="Вставки — стоковые видео и ИИ-генерации.">B-roll: stock footage and AI-generated clips.</p>
           </div>
         </article>
       </div>
@@ -2614,19 +2635,21 @@ html.media-watching #three{opacity:.18}html.media-watching #bg{opacity:.3}
     {title:'3 способа получить рубли в Сербии', kind:'Мой блог · Объясняющий рилс', description:'Перелёт по карте, анимированная карточка со счётчиком, каскадный график и субтитры по слову.', role:'Сценарий, съёмка, монтаж и графика', skills:['After Effects','Premiere Pro','Моушн','Звук'], file:'three-ways.mp4', poster:'three-ways.jpg', format:'9:16', resolution:'720 × 1280', duration:76.416, credit:''},
     {title:'Кофе в турке', kind:'Spec · Предметная съёмка', description:'Короткий продуктовый ролик, снятый дома: поднимающаяся пена, пар против света, макро и спид-рампы.', role:'Съёмка, монтаж, цвет и саунд-дизайн', skills:['Съёмка','Speed ramps','Цвет','Саунд-дизайн'], file:'кофе.mp4', poster:'кофе.jpg', format:'9:16', resolution:'720 × 1280', duration:21.738, credit:''},
     {title:'Скворцы', kind:'Spec · Моушн-дизайн', description:'Принт отделяется от ткани, слова собирают птицу, а матч-кат переводит к имени дизайнера.', role:'Моушн, монтаж и саунд-дизайн', skills:['After Effects','Кинетическая типографика','Саунд-дизайн'], file:'скворцы_Stravinskas.mp4', poster:'скворцы_Stravinskas.jpg', format:'4:3', resolution:'1440 × 1080', duration:23, credit:'Графический дизайн и мокапы — Алексей Стравинскас.'},
-    {title:'Столичный гардероб', kind:'Spec · Моушн-дизайн', description:'Арка логотипа, герои и типографика складываются в постер и семейный билборд. Графический переход завершает ролик именем дизайнера.', role:'Моушн, монтаж и саунд-дизайн', skills:['Моушн-дизайн','Маски','Кинетическая типографика','Саунд-дизайн'], file:'гардероб_Stravinskas.mp4', poster:'гардероб_Stravinskas.jpg', format:'4:3', resolution:'1440 × 1080', duration:24, credit:'Графический дизайн и мокапы — Алексей Стравинскас.'}
+    {title:'Столичный гардероб', kind:'Spec · Моушн-дизайн', description:'Арка логотипа, герои и типографика складываются в постер и семейный билборд. Графический переход завершает ролик именем дизайнера.', role:'Моушн, монтаж и саунд-дизайн', skills:['Моушн-дизайн','Маски','Кинетическая типографика','Саунд-дизайн'], file:'гардероб_Stravinskas.mp4', poster:'гардероб_Stravinskas.jpg', format:'4:3', resolution:'1440 × 1080', duration:24, credit:'Графический дизайн и мокапы — Алексей Стравинскас.'},
+    {title:'Не сдавай билет', kind:'Мой блог · Мотивационный рилс', description:'Говорящая голова в стиле «ночного кино»: кинетическая типографика, полноэкранные моушн-сцены с календарём, картой и посадочным талоном и звук на каждое движение.', role:'Текст, съёмка, монтаж и моушн-графика', skills:['After Effects','Premiere Pro','Кинетическая типографика','Звук'], file:'ticket.mp4', poster:'ticket.jpg', format:'9:16', resolution:'1080 × 1920', duration:53.92, credit:'Вставки — стоковые видео и ИИ-генерации.'}
   ];
 
   let language = document.documentElement.lang === 'ru' ? 'ru' : 'en';
   const ui = {
-    ru: { play:'Смотреть ролик', pause:'Пауза', mute:'Выключить звук', unmute:'Включить звук', seek:'Позиция в ролике', of:' из ', previous:'Предыдущая работа', next:'Следующая работа', close:'Закрыть крупный просмотр', choose:'Выбрать работу', view:'Просмотр выбранной работы', error:'Видео не загрузилось. Выбери другую работу или попробуй ещё раз.', playError:'Не удалось запустить видео. Попробуй нажать ещё раз.', short:['3 способа','Кофе в турке','Скворцы','Гардероб'], category:['Моушн','Съёмка','Моушн','Моушн'] },
-    en: { play:'Play video', pause:'Pause', mute:'Mute', unmute:'Unmute', seek:'Video position', of:' of ', previous:'Previous project', next:'Next project', close:'Close large view', choose:'Choose a project', view:'Selected project player', error:'The video could not load. Choose another project or try again.', playError:'The video could not start. Please try again.', short:['3 ways','Coffee in a cezve','Skvortsy','Garderob'], category:['Motion','Filming','Motion','Motion'] }
+    ru: { play:'Смотреть ролик', pause:'Пауза', mute:'Выключить звук', unmute:'Включить звук', seek:'Позиция в ролике', of:' из ', previous:'Предыдущая работа', next:'Следующая работа', close:'Закрыть крупный просмотр', choose:'Выбрать работу', view:'Просмотр выбранной работы', error:'Видео не загрузилось. Выбери другую работу или попробуй ещё раз.', playError:'Не удалось запустить видео. Попробуй нажать ещё раз.', short:['3 способа','Кофе в турке','Скворцы','Гардероб','Билет'], category:['Моушн','Съёмка','Моушн','Моушн','Моушн'] },
+    en: { play:'Play video', pause:'Pause', mute:'Mute', unmute:'Unmute', seek:'Video position', of:' of ', previous:'Previous project', next:'Next project', close:'Close large view', choose:'Choose a project', view:'Selected project player', error:'The video could not load. Choose another project or try again.', playError:'The video could not start. Please try again.', short:['3 ways','Coffee in a cezve','Skvortsy','Garderob','The ticket'], category:['Motion','Filming','Motion','Motion','Motion'] }
   };
   const english = [
     {title:'3 ways to get rubles to Serbia',kind:'Own blog · Explainer reel',description:'A map flight, an animated card and counter, a cascade chart and word-by-word subtitles.',role:'Script, filming, editing and motion graphics',skills:['After Effects','Premiere Pro','Motion','Sound'],credit:''},
     {title:'Coffee in a cezve',kind:'Spec · Product film',description:'A short product spot shot at home: rising foam, steam against the light, macro details and speed ramps.',role:'Filming, editing, color and sound design',skills:['Filming','Speed ramps','Color','Sound design'],credit:''},
     {title:'Skvortsy',kind:'Spec · Motion design',description:'The print peels off the fabric, words assemble a bird, and a match cut leads into the designer’s name.',role:'Motion, editing and sound design',skills:['After Effects','Kinetic type','Sound design'],credit:'Graphic design and mockups: Alexey Stravinskas.'},
-    {title:'Stolichny Garderob',kind:'Spec · Motion design',description:'The arch logo, people and typography assemble into a poster and a family billboard. A graphic transition leads into the designer’s name.',role:'Motion, editing and sound design',skills:['Motion design','Masking','Kinetic type','Sound design'],credit:'Graphic design and mockups: Alexey Stravinskas.'}
+    {title:'Stolichny Garderob',kind:'Spec · Motion design',description:'The arch logo, people and typography assemble into a poster and a family billboard. A graphic transition leads into the designer’s name.',role:'Motion, editing and sound design',skills:['Motion design','Masking','Kinetic type','Sound design'],credit:'Graphic design and mockups: Alexey Stravinskas.'},
+    {title:'Keep the ticket',kind:'Own blog · Motivational reel (in Russian)',description:'A talking head in a night-cinema look: kinetic typography, full-screen motion scenes with a calendar, a map and a boarding pass, and a sound on every move.',role:'Script, filming, editing and motion graphics',skills:['After Effects','Premiere Pro','Kinetic type','Sound'],credit:'B-roll: stock footage and AI-generated clips.'}
   ];
   const text = () => ui[language];
   const work = () => language === 'ru' ? works[selected] : { ...works[selected], ...english[selected] };
@@ -2639,6 +2662,8 @@ html.media-watching #three{opacity:.18}html.media-watching #bg{opacity:.3}
     const first = choices[0].getBoundingClientRect(), current = choices[selected].getBoundingClientRect();
     q('#pm-selection-line').style.width = current.width + 'px';
     q('#pm-selection-line').style.transform = 'translateX(' + (current.left - first.left) + 'px)';
+    const strip = q('#pm-filmstrip'), chosen = choices[selected];
+    if (strip.scrollWidth > strip.clientWidth + 1) strip.scrollTo({left: Math.max(0, chosen.offsetLeft - (strip.clientWidth - chosen.offsetWidth) / 2), behavior: motion.matches ? 'auto' : 'smooth'});
   }
   function layoutFilmstrip() {
     if(innerWidth <= 740) {
